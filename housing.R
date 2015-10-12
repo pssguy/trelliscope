@@ -6,6 +6,9 @@ library(ggplot2)
 library(datadr)
 library(trelliscope)
 
+#library(shiny)
+library(shinyapps)
+
 ## housing - work from zillow data
 library(housingData)
 
@@ -29,6 +32,9 @@ panel_ggplot <- function(x)
 
 ## test
 #panel_ggplot(byCounty[[5]]$value)
+
+##http://www.zillow.com/homes/Abbeville-County-SC_rb/
+#zillowString <- gsub(" ", "-", do.call(paste, getSplitVars(byCounty)))
 
 #cognostics function to be applied to each plot
 priceCog <- function(x) {
@@ -59,6 +65,23 @@ makeDisplay(byCounty,
                         cogFn   = priceCog,
                         name    = "list_vs_time_xy_free",
                         desc    = "List price per square foot vs. time with x and y axes free")
+
+
+deployToShinyApps(vdbConn = getOption("vdbConn"), appName = "trelliscope",
+                  account = "mytinyshinys", redeploy = TRUE, size = NULL, instances = NULL,
+                  quiet = FALSE)
+
+
+
+# *** Copying latest viewer to vdb directory...
+# *** Syncing local data...
+# Error in findRsync() : 
+#   rsync executable not found. Use 'rsync' argument to specify the correct path.
+
+### went into the vdbHousing directory and opened server file then published to trelliscope as trelliscope_Housing
+### seems to work ok
+## can remove displays from folder presumably so they dont show up
+
 
 #view()
 
